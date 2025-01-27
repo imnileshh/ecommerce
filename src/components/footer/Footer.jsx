@@ -21,7 +21,7 @@ function Footer() {
                 <div className='flex gap-1 items-center justify-center'>
                     <p className='font-semibold text-md text-gray-600'>For this Project
                     </p>
-                    <a className='text-lg underline font-bold text-gray-800' href="http://github.com/imnileshh">Click Here</a>
+                    <a className='text-lg underline font-bold text-gray-800' href="https://github.com/imnileshh/ecommerce">Click Here</a>
                 </div>
             </footer >
         </div >
