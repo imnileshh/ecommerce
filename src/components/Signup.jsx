@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import authservice from '../appwrite/auth';
 import { login } from '../cartStore/authSlice';
 import { useDispatch } from 'react-redux';
@@ -126,12 +126,12 @@ function Signup() {
                 </form>
                 <p className="text-sm text-gray-600 text-center mt-4">
                     Already have an account?{" "}
-                    <a
-                        href="/login"
-                        className="text-indigo-600 hover:underline"
+                    <Link
+                        to='/login'
+                        className="text-indigo-600 hover:underline inline"
                     >
-                        Log In
-                    </a>
+                        Log in
+                    </Link>
                 </p>
             </div>
         </div>
