@@ -36,21 +36,25 @@ function Signup() {
                 }
             }
         } catch (error) {
-            if (error.code === 409) {
+            console.error('Sign-up error:', error); // Log the full error object
+
+            // Check if the error has a code and handle specific errors
+            if (error?.code === 409) {
                 toast.error('A user with this email or phone number already exists. Please log in.', {
                     position: 'top-center',
                     autoClose: 3000,
                     theme: 'dark',
                 });
             } else {
-                toast.error('An error occurred during signup. Please try again.', {
+                // Handle generic errors
+                toast.error(error.message || 'An error occurred during signup. Please try again.', {
                     position: 'top-center',
                     autoClose: 3000,
                     theme: 'dark',
                 });
             }
-            console.error('Sign-up error:', error.code);
-        } finally {
+        }
+        finally {
             setLoading(false)
         }
     }
