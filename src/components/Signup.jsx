@@ -13,6 +13,18 @@ function Signup() {
     const { register, handleSubmit } = useForm();
     const [loading, setLoading] = useState(false)
 
+    const toastOptions = {
+        position: 'top-right',
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        // progress: 0,
+        theme: 'dark',
+        // transition: 'slide'
+    }
+
     const signUp = async (data) => {
         setLoading(true)
         try {
@@ -21,17 +33,7 @@ function Signup() {
                 const currentUser = await authservice.getCurrentUser();
                 if (currentUser) {
                     dispatch(login(currentUser));
-                    toast.success(`Signed In as ${currentUser.name}`, {
-                        position: 'top-right',
-                        autoClose: 1000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        // progress: 0,
-                        theme: 'dark',
-                        // transition: 'slide'
-                    })
+                    toast.success(`Signed In as ${currentUser.name}`, toastOptions)
                     navigate('/')
                 }
             }
@@ -40,18 +42,10 @@ function Signup() {
 
             // Check if the error has a code and handle specific errors
             if (error?.code === 409) {
-                toast.error('A user with this email or phone number already exists. Please log in.', {
-                    position: 'top-center',
-                    autoClose: 3000,
-                    theme: 'dark',
-                });
+                toast.error('A user with this email or phone number already exists. Please log in.', toastOptions);
             } else {
                 // Handle generic errors
-                toast.error(error.message || 'An error occurred during signup. Please try again.', {
-                    position: 'top-center',
-                    autoClose: 3000,
-                    theme: 'dark',
-                });
+                toast.error(error.message || 'An error occurred during signup. Please try again.', toastOptions);
             }
         }
         finally {

@@ -11,7 +11,17 @@ function Login() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false)
-
+    const toastOptions = {
+        position: 'top-right',
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        // progress: 0,
+        theme: 'dark',
+        // transition: 'slide'
+    }
 
     const signIn = async (data) => {
         try {
@@ -21,33 +31,15 @@ function Login() {
                 const currentUser = await authservice.getCurrentUser()
                 if (currentUser) {
                     dispatch(login(currentUser))
-                    toast.success(`Logged In as ${currentUser.name}`, {
-                        position: 'top-center',
-                        autoClose: 1000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        // progress: 0,
-                        theme: 'dark',
-                        // transition: 'slide'
-                    })
+                    toast.success(`Logged In as ${currentUser.name}`, toastOptions)
                     navigate('/')
                 }
             }
         } catch (error) {
             if (error.code === 401) {
-                toast.error('Invalid email or password. Please try again.', {
-                    position: 'top-center',
-                    autoClose: 3000,
-                    theme: 'dark',
-                });
+                toast.error('Invalid email or password. Please try again.', toastOptions);
             } else {
-                toast.error('An error occurred during login. Please try again.', {
-                    position: 'top-center',
-                    autoClose: 3000,
-                    theme: 'dark',
-                });
+                toast.error('An error occurred during login. Please try again.', toastOptions);
             }
             console.error('Login error:', error);
 
