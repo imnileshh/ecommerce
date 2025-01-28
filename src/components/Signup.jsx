@@ -40,12 +40,14 @@ function Signup() {
                 }
             }
         } catch (error) {
-            setIsError(error)
-            console.log(isError)
+            toast.error(`${error.message}`, toastOptions)
+
+            // setIsError(error.messa)
+            // console.log(isError)
             // console.error('Sign-up error:', error); // Log the full error object
-            if (isError) {
-                toast.error(`${isError}`, toastOptions)
-            }
+            // if (isError) {
+            //     toast.error(`${isError}`, toastOptions)
+            // }
             // Check if the error has a code and handle specific errors
             // if (error?.code === 409) {
             //     toast.error('A user with this email or phone number already exists. Please log in.', toastOptions);
