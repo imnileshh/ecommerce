@@ -12,7 +12,7 @@ function Login() {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false)
     const toastOptions = {
-        position: 'top-right',
+        position: 'top-center',
         autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -36,7 +36,7 @@ function Login() {
                 }
             }
         } catch (error) {
-            if (error.code === 401) {
+            if (error.code === '401') {
                 toast.error('Invalid email or password. Please try again.', toastOptions);
             } else {
                 toast.error('An error occurred during login. Please try again.', toastOptions);

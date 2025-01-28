@@ -14,7 +14,7 @@ function Signup() {
     const [loading, setLoading] = useState(false)
 
     const toastOptions = {
-        position: 'top-right',
+        position: 'top-center',
         autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
