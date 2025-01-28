@@ -36,7 +36,7 @@ function Signup() {
                 }
             }
         } catch (error) {
-            if (error.message.includes('already exists')) {
+            if (error.code === 409) {
                 toast.error('A user with this email or phone number already exists. Please log in.', {
                     position: 'top-center',
                     autoClose: 3000,
@@ -49,7 +49,7 @@ function Signup() {
                     theme: 'dark',
                 });
             }
-            console.error('Sign-up error:', error);
+            console.error('Sign-up error:', error.code);
         } finally {
             setLoading(false)
         }

@@ -36,7 +36,7 @@ function Login() {
                 }
             }
         } catch (error) {
-            if (error.message.includes('Invalid credentials')) {
+            if (error.code === 401) {
                 toast.error('Invalid email or password. Please try again.', {
                     position: 'top-center',
                     autoClose: 3000,
@@ -50,6 +50,7 @@ function Login() {
                 });
             }
             console.error('Login error:', error);
+
         } finally {
             setLoading(false)
         }
