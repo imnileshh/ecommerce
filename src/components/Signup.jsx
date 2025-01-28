@@ -12,6 +12,7 @@ function Signup() {
     const dispatch = useDispatch();
     const { register, handleSubmit } = useForm();
     const [loading, setLoading] = useState(false)
+    const [isError, setIsError] = useState('')
 
     const toastOptions = {
         position: 'top-center',
@@ -35,18 +36,23 @@ function Signup() {
                     dispatch(login(currentUser));
                     toast.success(`Signed In as ${currentUser.name}`, toastOptions)
                     navigate('/')
+                    setError('')
                 }
             }
         } catch (error) {
-            console.error('Sign-up error:', error); // Log the full error object
-
-            // Check if the error has a code and handle specific errors
-            if (error?.code === 409) {
-                toast.error('A user with this email or phone number already exists. Please log in.', toastOptions);
-            } else {
-                // Handle generic errors
-                toast.error(error.message || 'An error occurred during signup. Please try again.', toastOptions);
+            setIsError(error)
+            console.log(isError)
+            // console.error('Sign-up error:', error); // Log the full error object
+            if (isError) {
+                toast.error(`${isError}`, toastOptions)
             }
+            // Check if the error has a code and handle specific errors
+            // if (error?.code === 409) {
+            //     toast.error('A user with this email or phone number already exists. Please log in.', toastOptions);
+            // } else {
+            //     // Handle generic errors
+            //     toast.error(error.message || 'An error occurred during signup. Please try again.', toastOptions);
+            // }
         }
         finally {
             setLoading(false)
