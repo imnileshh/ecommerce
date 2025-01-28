@@ -36,18 +36,20 @@ function Signup() {
                 }
             }
         } catch (error) {
-            console.log(error);
-            toast.error(`Failed to Sign Up`, {
-                position: 'top-center',
-                autoClose: 1000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: true,
-                // progress: 0,
-                theme: 'dark',
-                // transition: 'slide'
-            })
+            if (error.message.includes('already exists')) {
+                toast.error('A user with this email or phone number already exists. Please log in.', {
+                    position: 'top-center',
+                    autoClose: 3000,
+                    theme: 'dark',
+                });
+            } else {
+                toast.error('An error occurred during signup. Please try again.', {
+                    position: 'top-center',
+                    autoClose: 3000,
+                    theme: 'dark',
+                });
+            }
+            console.error('Sign-up error:', error);
         } finally {
             setLoading(false)
         }

@@ -36,18 +36,20 @@ function Login() {
                 }
             }
         } catch (error) {
-            console.log(error);
-            toast.error(`Failed to log In`, {
-                position: 'top-center',
-                autoClose: 1000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: true,
-                // progress: 0,
-                theme: 'dark',
-                // transition: 'slide'
-            })
+            if (error.message.includes('Invalid credentials')) {
+                toast.error('Invalid email or password. Please try again.', {
+                    position: 'top-center',
+                    autoClose: 3000,
+                    theme: 'dark',
+                });
+            } else {
+                toast.error('An error occurred during login. Please try again.', {
+                    position: 'top-center',
+                    autoClose: 3000,
+                    theme: 'dark',
+                });
+            }
+            console.error('Login error:', error);
         } finally {
             setLoading(false)
         }
