@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import authservice from '../appwrite/auth'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { login } from '../cartStore/authSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
+import { AppwriteException } from 'appwrite'
 
 function Login() {
     const { register, handleSubmit } = useForm()
@@ -36,13 +37,14 @@ function Login() {
                 }
             }
         } catch (error) {
-            if (error.code === '401') {
-                toast.error('Invalid email or password. Please try again.', toastOptions);
-            } else {
-                toast.error('An error occurred during login. Please try again.', toastOptions);
+            if (error instanceof AppwriteException) {
+                alert(`An error occured  : ${error.message}`)
+                console.log("Message", error.message);
+                console.log("cause", error.cause);
             }
-            console.error('Login error:', error);
-
+            else {
+                console.log("Error", error);
+            }
         } finally {
             setLoading(false)
         }
@@ -98,9 +100,9 @@ function Login() {
                 {/* Footer */}
                 <p className="mt-4 text-sm text-center text-gray-600">
                     Don't have an account?{" "}
-                    <a href="/signup" className="text-gray-800 font-semibold hover:underline">
+                    <Link to="/signup" className="text-gray-800 font-semibold hover:underline">
                         Sign Up
-                    </a>
+                    </Link>
                 </p>
             </div>
         </div>

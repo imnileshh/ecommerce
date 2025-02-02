@@ -36,25 +36,18 @@ function Signup() {
                     dispatch(login(currentUser));
                     toast.success(`Signed In as ${currentUser.name}`, toastOptions)
                     navigate('/')
-                    setError('')
+                    setIsError('')
                 }
             }
         } catch (error) {
-            toast.error(`${error.message}`, toastOptions)
-
-            // setIsError(error.messa)
-            // console.log(isError)
-            // console.error('Sign-up error:', error); // Log the full error object
-            // if (isError) {
-            //     toast.error(`${isError}`, toastOptions)
-            // }
-            // Check if the error has a code and handle specific errors
-            // if (error?.code === 409) {
-            //     toast.error('A user with this email or phone number already exists. Please log in.', toastOptions);
-            // } else {
-            //     // Handle generic errors
-            //     toast.error(error.message || 'An error occurred during signup. Please try again.', toastOptions);
-            // }
+            if (error instanceof AppwriteException) {
+                alert(`An error occured  : ${error.message}`)
+                console.log("Message", error.message);
+                console.log("cause", error.cause);
+            }
+            else {
+                console.log("Error", error);
+            }
         }
         finally {
             setLoading(false)
