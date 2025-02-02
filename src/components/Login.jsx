@@ -6,12 +6,15 @@ import { login } from '../cartStore/authSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { AppwriteException } from 'appwrite'
+import 'react-toastify/dist/ReactToastify.css'; // Add this line
 
 function Login() {
     const { register, handleSubmit } = useForm()
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('');
+
     const toastOptions = {
         position: 'top-center',
         autoClose: 1000,
@@ -25,30 +28,29 @@ function Login() {
     }
 
     const signIn = async (data) => {
+        setError('')
         try {
-            setLoading(true)
-            const session = await authservice.login(data)
+            setLoading(true);
+            const session = await authservice.login(data);
             if (session) {
-                const currentUser = await authservice.getCurrentUser()
+                const currentUser = await authservice.getCurrentUser();
                 if (currentUser) {
-                    dispatch(login(currentUser))
-                    toast.success(`Logged In as ${currentUser.name}`, toastOptions)
-                    navigate('/')
+                    dispatch(login(currentUser));
+                    toast.success(`Logged In as ${currentUser.name}`, toastOptions);
+                    navigate('/');
                 }
             }
         } catch (error) {
-            if (error instanceof AppwriteException) {
-                alert(`An error occured  : ${error.message}`)
-                console.log("Message", error.message);
-                console.log("cause", error.cause);
-            }
-            else {
-                console.log("Error", error);
+            console.error('Login Error:', error);
+            if (error.message.includes('Invalid credentials')) {
+                toast.error('Invalid email or password. Please try again.', toastOptions);
+            } else {
+                toast.error(error.message || 'An error occurred during login. Please try again.', toastOptions);
             }
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
-    }
+    };
 
     return (
         <div className="flex items-center justify-center w-[90%] my-10 p-10 mx-auto bg-gray-200">

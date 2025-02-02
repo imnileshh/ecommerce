@@ -5,6 +5,7 @@ import authservice from '../appwrite/auth';
 import { login } from '../cartStore/authSlice';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Add this line
 
 
 function Signup() {
@@ -27,32 +28,28 @@ function Signup() {
     }
 
     const signUp = async (data) => {
-        setLoading(true)
+        setLoading(true);
         try {
-            const userData = await authservice.createAccount(data)
+            const userData = await authservice.createAccount(data);
             if (userData) {
                 const currentUser = await authservice.getCurrentUser();
                 if (currentUser) {
                     dispatch(login(currentUser));
-                    toast.success(`Signed In as ${currentUser.name}`, toastOptions)
-                    navigate('/')
-                    setIsError('')
+                    toast.success(`Signed In as ${currentUser.name}`, toastOptions);
+                    navigate('/');
                 }
             }
         } catch (error) {
-            if (error instanceof AppwriteException) {
-                alert(`An error occured  : ${error.message}`)
-                console.log("Message", error.message);
-                console.log("cause", error.cause);
+            console.error('Signup Error:', error.code);
+            if (error.message.includes('already exists')) {
+                toast.error('A user with this email already exists. Please log in.', toastOptions);
+            } else {
+                toast.error(error.message || 'An error occurred during signup. Please try again.', toastOptions);
             }
-            else {
-                console.log("Error", error);
-            }
+        } finally {
+            setLoading(false);
         }
-        finally {
-            setLoading(false)
-        }
-    }
+    };
 
     return (
         <div className="w-[90%] mx-auto bg-gray-200 flex items-center justify-center p-10 my-10" >

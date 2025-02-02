@@ -17,6 +17,7 @@ export class AuthService {
             return await this.account.createEmailPasswordSession(email, password)
         } catch (error) {
             console.log("Login Error: ", error)
+            throw error;
         }
     }
 
@@ -25,6 +26,7 @@ export class AuthService {
             await this.account.deleteSessions();
         } catch (error) {
             console.log("Logout Error", error)
+            throw error;
         }
     }
 
@@ -35,7 +37,8 @@ export class AuthService {
                 return this.login({ email, password })
             }
         } catch (error) {
-            console.log(error)
+            console.log("CreateAccount Erroe", error)
+            throw error;
         }
     }
 
